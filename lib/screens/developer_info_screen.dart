@@ -18,7 +18,7 @@ class DeveloperInfoScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
 
             // Developer image placeholder
             // Replace with actual developer image asset:
@@ -33,7 +33,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
 
             // Developer name
             Text(
@@ -56,12 +56,12 @@ class DeveloperInfoScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 10),
 
             // Project details card
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -104,12 +104,12 @@ class DeveloperInfoScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 5),
 
             // About section
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -135,12 +135,12 @@ class DeveloperInfoScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 5),
 
             // Contact / social section placeholder
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -150,7 +150,7 @@ class DeveloperInfoScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
                     Row(
                       children: [
                         _buildSocialButton(
@@ -186,7 +186,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 5),
           ],
         ),
       ),
