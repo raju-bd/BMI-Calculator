@@ -332,10 +332,36 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
   Widget _buildResultCard() {
     final bool hasResult = _bmiResult != null && _bmiCategory != null;
 
-    return Card(
-      color: hasResult
-          ? _getCategoryColor(_bmiCategory!).withOpacity(0.08)
-          : null,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeInOut,
+      decoration: BoxDecoration(
+        color: hasResult
+            ? _getCategoryColor(_bmiCategory!).withOpacity(0.08)
+            : const Color(0xFFFEF7FF),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: hasResult
+              ? _getCategoryColor(_bmiCategory!).withOpacity(0.2)
+              : const Color(0xFFE7E0EC),
+          width: 1.5,
+        ),
+        boxShadow: hasResult
+            ? [
+                BoxShadow(
+                  color: _getCategoryColor(_bmiCategory!).withOpacity(0.15),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                ),
+              ]
+            : [
+                BoxShadow(
+                  color: const Color(0xFF1D1B20).withOpacity(0.04),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -350,10 +376,15 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
 
             // If we have a result, show it; otherwise show instructions
             if (hasResult) ...[
+              // BMI gauge visualization
+              _buildBmiGauge(_bmiResult!, _bmiCategory!),
+
+              const SizedBox(height: 20),
+
               // Display the BMI value with 2 decimal places
               AnimatedScale(
                 scale: hasResult ? 1.0 : 0.8,
-                duration: const Duration(milliseconds: 400),
+                duration: const Duration(milliseconds: 500),
                 curve: Curves.elasticOut,
                 child: Text(
                   _bmiResult!.toStringAsFixed(2),
@@ -366,56 +397,157 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
 
               const SizedBox(height: 12),
 
-              // Display the category with an icon
+              // Display the category with an animated badge
               AnimatedOpacity(
                 opacity: hasResult ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 600),
                 curve: Curves.easeInOut,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: _getCategoryColor(_bmiCategory!).withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        _getCategoryIcon(_bmiCategory!),
-                        color: _getCategoryColor(_bmiCategory!),
-                        size: 24,
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.elasticOut,
+                  builder: (context, value, child) {
+                    return Transform.scale(
+                      scale: value,
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          _getCategoryColor(_bmiCategory!).withOpacity(0.2),
+                          _getCategoryColor(_bmiCategory!).withOpacity(0.1),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        _bmiCategory!,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: _getCategoryColor(_bmiCategory!),
-                            ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: _getCategoryColor(_bmiCategory!).withOpacity(0.3),
+                        width: 1,
                       ),
-                    ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AnimatedRotation(
+                          turns: hasResult ? 0 : 1,
+                          duration: const Duration(milliseconds: 600),
+                          curve: Curves.elasticOut,
+                          child: Icon(
+                            _getCategoryIcon(_bmiCategory!),
+                            color: _getCategoryColor(_bmiCategory!),
+                            size: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          _bmiCategory!,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: _getCategoryColor(_bmiCategory!),
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ] else ...[
               // Instructional message before calculation
-              Icon(
-                Icons.calculate_outlined,
-                size: 56,
-                color: Theme.of(context).disabledColor,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Enter your height and weight\nto calculate your BMI.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              AnimatedOpacity(
+                opacity: hasResult ? 0.0 : 1.0,
+                duration: const Duration(milliseconds: 300),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.calculate_outlined,
+                      size: 56,
                       color: Theme.of(context).disabledColor,
                     ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Enter your height and weight\nto calculate your BMI.',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).disabledColor,
+                          ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ],
         ),
       ),
+    );
+  }
+
+  /// Builds a visual BMI gauge indicator
+  Widget _buildBmiGauge(double bmi, String category) {
+    // BMI scale: 10 to 40 mapped to 0-1
+    final double minBmi = 10.0;
+    final double maxBmi = 40.0;
+    final double clampedBmi = bmi.clamp(minBmi, maxBmi);
+    final double progress = (clampedBmi - minBmi) / (maxBmi - minBmi);
+
+    // Determine gauge color based on category
+    final Color gaugeColor = _getCategoryColor(category);
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: progress),
+      duration: const Duration(milliseconds: 1000),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Column(
+          children: [
+            Container(
+              height: 8,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: const Color(0xFFE7E0EC),
+              ),
+              child: FractionallySizedBox(
+                widthFactor: value,
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    gradient: LinearGradient(
+                      colors: [
+                        gaugeColor,
+                        gaugeColor.withOpacity(0.7),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Underweight',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: const Color(0xFF0061A4),
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                Text(
+                  'Obesity',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: const Color(0xFFB3261E),
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }
