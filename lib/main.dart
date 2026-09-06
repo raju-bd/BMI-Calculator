@@ -77,27 +77,27 @@ class BmiCalculatorApp extends StatelessWidget {
           fillColor: const Color(0xFFF1F8E9),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide.none,
+            borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFFE8F5E9), width: 1),
+            borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+            borderSide: const BorderSide(color: Color(0xFF1B5E20), width: 3),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFFB3261E), width: 1),
+            borderSide: const BorderSide(color: Color(0xFFB3261E), width: 2),
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           labelStyle: const TextStyle(
-            color: Color(0xFF2E7D32),
+            color: Color(0xFF1B5E20),
             fontWeight: FontWeight.w500,
           ),
-          hintStyle: TextStyle(
-            color: const Color(0xFF4CAF50).withValues(alpha: 0.7),
+          hintStyle: const TextStyle(
+            color: Colors.white70,
           ),
         ),
         cardTheme: CardThemeData(
