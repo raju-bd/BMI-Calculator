@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Developer Info Screen
 ///
@@ -34,10 +35,13 @@ class DeveloperInfoScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: const AssetImage('assets/images/raju.jpg'),
-                backgroundColor: Colors.white,
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/raju.jpg',
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
 
@@ -165,8 +169,14 @@ class DeveloperInfoScreen extends StatelessWidget {
                           context,
                           icon: Icons.email_outlined,
                           label: 'Email',
-                          onTap: () {
-                            // TODO: Add email link
+                          onTap: () async {
+                            final Uri emailUri = Uri(
+                              scheme: 'mailto',
+                              path: 'bd.mahfuzul@gmail.com',
+                            );
+                            if (await canLaunchUrl(emailUri)) {
+                              await launchUrl(emailUri);
+                            }
                           },
                         ),
                         const SizedBox(width: 12),
@@ -174,8 +184,13 @@ class DeveloperInfoScreen extends StatelessWidget {
                           context,
                           icon: Icons.link,
                           label: 'Portfolio',
-                          onTap: () {
-                            // TODO: Add portfolio link
+                          onTap: () async {
+                            final Uri portfolioUri = Uri.parse(
+                              'https://github.com/raju-bd',
+                            );
+                            if (await canLaunchUrl(portfolioUri)) {
+                              await launchUrl(portfolioUri);
+                            }
                           },
                         ),
                         const SizedBox(width: 12),
@@ -183,8 +198,13 @@ class DeveloperInfoScreen extends StatelessWidget {
                           context,
                           icon: Icons.code,
                           label: 'GitHub',
-                          onTap: () {
-                            // TODO: Add GitHub link
+                          onTap: () async {
+                            final Uri githubUri = Uri.parse(
+                              'https://github.com/raju-bd/BMI-Calculator',
+                            );
+                            if (await canLaunchUrl(githubUri)) {
+                              await launchUrl(githubUri);
+                            }
                           },
                         ),
                       ],
