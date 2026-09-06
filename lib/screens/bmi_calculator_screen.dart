@@ -192,7 +192,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                       textAlign: TextAlign.center,
                     ),
 
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 20),
 
                     // Weight input field
                     _buildAnimatedField(
@@ -287,12 +287,12 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                       ),
                     ],
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
 
                     // Result card - shows the BMI result or an instructional message
                     _buildResultCard(),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 5),
 
                     // Developer info navigation link
                     TextButton.icon(
@@ -303,7 +303,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                           ),
                         );
                       },
-                      icon: const Icon(Icons.person_outline),
+                      icon: const Icon(Icons.person_outline_rounded),
                       label: const Text('Developer Info'),
                     ),
                   ],

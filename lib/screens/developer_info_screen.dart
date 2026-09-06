@@ -20,20 +20,13 @@ class DeveloperInfoScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 30),
 
-            // Developer image placeholder
-            // Replace with actual developer image asset:
-            // CircleAvatar(backgroundImage: AssetImage('assets/images/developer.jpg'), radius: 60)
-            const CircleAvatar(
-              radius: 60,
-              backgroundColor: Color(0xFFE7E0EC),
-              child: Icon(
-                Icons.person_outlined,
-                size: 60,
-                color: Color(0xFF6750A4),
-              ),
-            ),
+            // Developer image
+             CircleAvatar(
+               radius: 60,
+               backgroundImage: const AssetImage('assets/images/raju.jpg'),
+             ),
 
-            const SizedBox(height: 8),
+             const SizedBox(height: 4),
 
             // Developer name
             Text(
@@ -44,7 +37,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
 
             // Developer title
             Text(
@@ -56,7 +49,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
 
             // Project details card
             Card(
@@ -71,28 +64,28 @@ class DeveloperInfoScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 6),
                     _buildInfoRow(
                       context,
                       label: 'Project Name',
                       value: 'BMI Calculator',
                       icon: Icons.calculate_outlined,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
                     _buildInfoRow(
                       context,
                       label: 'Assignment',
                       value: 'Module 20',
                       icon: Icons.assignment_outlined,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
                     _buildInfoRow(
                       context,
                       label: 'Course',
                       value: 'App Development with Flutter & AI',
                       icon: Icons.school_outlined,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
                     _buildInfoRow(
                       context,
                       label: 'Batch',
@@ -104,7 +97,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 5),
+            const SizedBox(height: 3),
 
             // About section
             Card(
@@ -119,7 +112,7 @@ class DeveloperInfoScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
                     Text(
                       'This BMI Calculator app was developed as part of Module 20 assignment. '
                       'The app allows users to calculate their Body Mass Index (BMI) by entering '
@@ -135,7 +128,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 5),
+            const SizedBox(height: 3),
 
             // Contact / social section placeholder
             Card(
@@ -186,7 +179,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 5),
+            const SizedBox(height: 2),
           ],
         ),
       ),
