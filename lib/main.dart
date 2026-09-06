@@ -97,16 +97,16 @@ class BmiCalculatorApp extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
           hintStyle: TextStyle(
-            color: const Color(0xFF79747E).withOpacity(0.7),
+            color: const Color(0xFF79747E).withValues(alpha: 0.7),
           ),
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
           color: const Color(0xFFFEF7FF),
-          shadowColor: const Color(0xFF1D1B20).withOpacity(0.08),
+          shadowColor: const Color(0xFF1D1B20).withValues(alpha: 0.08),
         ),
         textTheme: const TextTheme(
           headlineSmall: TextStyle(

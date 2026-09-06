@@ -161,125 +161,139 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
           title: const Text('BMI Calculator'),
         ),
         // Using SingleChildScrollView to prevent overflow on small screens
-        body: SingleChildScrollView(
-          // Padding to give some space from the edges
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              // CrossAxisAlignment.stretch makes children take full width
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 16),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final bool isWide = constraints.maxWidth > 600;
 
-                // Header text
-                Text(
-                  'Calculate Your BMI',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
+            return SingleChildScrollView(
+              // Responsive padding based on screen width
+              padding: EdgeInsets.all(isWide ? 48.0 : 24.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: isWide ? 500 : double.infinity,
+                  minHeight: constraints.maxHeight,
                 ),
+                child: IntrinsicHeight(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      // CrossAxisAlignment.stretch makes children take full width
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 16),
 
-                const SizedBox(height: 8),
+                        // Header text
+                        Text(
+                          'Calculate Your BMI',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                          textAlign: TextAlign.center,
+                        ),
 
-                Text(
-                  'Enter your details below to check your health status',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF79747E),
-                      ),
-                  textAlign: TextAlign.center,
-                ),
+                        const SizedBox(height: 8),
 
-                const SizedBox(height: 32),
+                        Text(
+                          'Enter your details below to check your health status',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: const Color(0xFF79747E),
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
 
-                // Weight input field
-                _buildAnimatedField(
-                  index: 0,
-                  child: TextFormField(
-                    controller: _weightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
+                        const SizedBox(height: 32),
+
+                        // Weight input field
+                        _buildAnimatedField(
+                          index: 0,
+                          child: TextFormField(
+                            controller: _weightController,
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Weight',
+                              hintText: 'Enter weight',
+                              suffixText: 'kg',
+                              prefixIcon: const Icon(Icons.monitor_weight_outlined),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your weight.';
+                              }
+                              final double? weight = double.tryParse(value);
+                              if (weight == null) {
+                                return 'Please enter a valid number.';
+                              }
+                              if (weight <= 0) {
+                                return 'Weight must be greater than 0.';
+                              }
+                              return null; // Validation passed
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Height input field
+                        _buildAnimatedField(
+                          index: 1,
+                          child: TextFormField(
+                            controller: _heightController,
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Height',
+                              hintText: 'Enter height',
+                              suffixText: 'cm',
+                              prefixIcon: const Icon(Icons.height_outlined),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your height.';
+                              }
+                              final double? height = double.tryParse(value);
+                              if (height == null) {
+                                return 'Please enter a valid number.';
+                              }
+                              if (height <= 0) {
+                                return 'Height must be greater than 0.';
+                              }
+                              return null; // Validation passed
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Calculate button - animated on press
+                        _buildAnimatedButton(
+                          onPressed: _calculateBMI,
+                          label: 'Calculate BMI',
+                          isPrimary: true,
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        // Reset button - outlined style to distinguish from calculate
+                        _buildAnimatedButton(
+                          onPressed: _resetFields,
+                          label: 'Reset',
+                          isPrimary: false,
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Result card - shows the BMI result or an instructional message
+                        Expanded(child: _buildResultCard()),
+
+                        const SizedBox(height: 24),
+                      ],
                     ),
-                    decoration: InputDecoration(
-                      labelText: 'Weight',
-                      hintText: 'Enter weight',
-                      suffixText: 'kg',
-                      prefixIcon: const Icon(Icons.monitor_weight_outlined),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your weight.';
-                      }
-                      final double? weight = double.tryParse(value);
-                      if (weight == null) {
-                        return 'Please enter a valid number.';
-                      }
-                      if (weight <= 0) {
-                        return 'Weight must be greater than 0.';
-                      }
-                      return null; // Validation passed
-                    },
                   ),
                 ),
-
-                const SizedBox(height: 16),
-
-                // Height input field
-                _buildAnimatedField(
-                  index: 1,
-                  child: TextFormField(
-                    controller: _heightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Height',
-                      hintText: 'Enter height',
-                      suffixText: 'cm',
-                      prefixIcon: const Icon(Icons.height_outlined),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your height.';
-                      }
-                      final double? height = double.tryParse(value);
-                      if (height == null) {
-                        return 'Please enter a valid number.';
-                      }
-                      if (height <= 0) {
-                        return 'Height must be greater than 0.';
-                      }
-                      return null; // Validation passed
-                    },
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Calculate button - animated on press
-                _buildAnimatedButton(
-                  onPressed: _calculateBMI,
-                  label: 'Calculate BMI',
-                  isPrimary: true,
-                ),
-
-                const SizedBox(height: 12),
-
-                // Reset button - outlined style to distinguish from calculate
-                _buildAnimatedButton(
-                  onPressed: _resetFields,
-                  label: 'Reset',
-                  isPrimary: false,
-                ),
-
-                const SizedBox(height: 24),
-
-                // Result card - shows the BMI result or an instructional message
-                _buildResultCard(),
-
-                const SizedBox(height: 24),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -337,26 +351,26 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
         color: hasResult
-            ? _getCategoryColor(_bmiCategory!).withOpacity(0.08)
+            ? _getCategoryColor(_bmiCategory!).withValues(alpha: 0.08)
             : const Color(0xFFFEF7FF),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: hasResult
-              ? _getCategoryColor(_bmiCategory!).withOpacity(0.2)
+              ? _getCategoryColor(_bmiCategory!).withValues(alpha: 0.2)
               : const Color(0xFFE7E0EC),
           width: 1.5,
         ),
         boxShadow: hasResult
             ? [
                 BoxShadow(
-                  color: _getCategoryColor(_bmiCategory!).withOpacity(0.15),
+                  color: _getCategoryColor(_bmiCategory!).withValues(alpha: 0.15),
                   blurRadius: 24,
                   offset: const Offset(0, 8),
                 ),
               ]
             : [
                 BoxShadow(
-                  color: const Color(0xFF1D1B20).withOpacity(0.04),
+                  color: const Color(0xFF1D1B20).withValues(alpha: 0.04),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -417,15 +431,15 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          _getCategoryColor(_bmiCategory!).withOpacity(0.2),
-                          _getCategoryColor(_bmiCategory!).withOpacity(0.1),
+                          _getCategoryColor(_bmiCategory!).withValues(alpha: 0.2),
+                          _getCategoryColor(_bmiCategory!).withValues(alpha: 0.1),
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: _getCategoryColor(_bmiCategory!).withOpacity(0.3),
+                        color: _getCategoryColor(_bmiCategory!).withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -518,7 +532,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                     gradient: LinearGradient(
                       colors: [
                         gaugeColor,
-                        gaugeColor.withOpacity(0.7),
+                        gaugeColor.withValues(alpha: 0.7),
                       ],
                     ),
                   ),
