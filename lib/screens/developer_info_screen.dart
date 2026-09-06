@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const String kDeveloperPhotoAsset = 'assets/images/raju.jpg';
 const String kDeveloperName = 'Md. Mahfuzul Amin RAJU';
@@ -57,6 +58,8 @@ class DeveloperInfoScreen extends StatelessWidget {
                     color: Color(0xFF4CAF50),
                   ),
                 ),
+                SizedBox(height: 20),
+                _ConnectButtons(),
               ],
             ),
           ),
@@ -161,6 +164,105 @@ class _ProjectCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ConnectButtons extends StatelessWidget {
+  const _ConnectButtons();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            _SocialButton(
+              icon: Icons.email_outlined,
+              label: 'Email',
+              onTap: () async {
+                final Uri emailUri = Uri(
+                  scheme: 'mailto',
+                  path: 'bd.mahfuzul@gmail.com',
+                );
+                if (await canLaunchUrl(emailUri)) {
+                  await launchUrl(emailUri);
+                }
+              },
+            ),
+            const SizedBox(width: 12),
+            _SocialButton(
+              icon: Icons.link,
+              label: 'Portfolio',
+              onTap: () async {
+                final Uri portfolioUri = Uri.parse(
+                  'https://github.com/raju-bd',
+                );
+                if (await canLaunchUrl(portfolioUri)) {
+                  await launchUrl(portfolioUri);
+                }
+              },
+            ),
+            const SizedBox(width: 12),
+            _SocialButton(
+              icon: Icons.code,
+              label: 'GitHub',
+              onTap: () async {
+                final Uri githubUri = Uri.parse(
+                  'https://github.com/raju-bd/BMI-Calculator',
+                );
+                if (await canLaunchUrl(githubUri)) {
+                  await launchUrl(githubUri);
+                }
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _SocialButton extends StatelessWidget {
+  const _SocialButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F8E9),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFE8F5E9)),
+          ),
+          child: Column(
+            children: [
+              Icon(icon, color: const Color(0xFF2E7D32), size: 24),
+              const SizedBox(height: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF1B5E20),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
