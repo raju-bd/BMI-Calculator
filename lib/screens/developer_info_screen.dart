@@ -21,10 +21,25 @@ class DeveloperInfoScreen extends StatelessWidget {
             const SizedBox(height: 30),
 
             // Developer image
-             CircleAvatar(
-               radius: 60,
-               backgroundImage: const AssetImage('assets/images/raju.jpg'),
-             ),
+            // Developer image with green border and shadow
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFF386A20), width: 4),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF386A20).withValues(alpha: 0.25),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: CircleAvatar(
+                radius: 60,
+                backgroundImage: const AssetImage('assets/images/raju.jpg'),
+                backgroundColor: Colors.white,
+              ),
+            ),
 
              const SizedBox(height: 4),
 
