@@ -192,75 +192,83 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                 const SizedBox(height: 32),
 
                 // Weight input field
-                TextFormField(
-                  controller: _weightController,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
+                _buildAnimatedField(
+                  index: 0,
+                  child: TextFormField(
+                    controller: _weightController,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Weight',
+                      hintText: 'Enter weight',
+                      suffixText: 'kg',
+                      prefixIcon: const Icon(Icons.monitor_weight_outlined),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your weight.';
+                      }
+                      final double? weight = double.tryParse(value);
+                      if (weight == null) {
+                        return 'Please enter a valid number.';
+                      }
+                      if (weight <= 0) {
+                        return 'Weight must be greater than 0.';
+                      }
+                      return null; // Validation passed
+                    },
                   ),
-                  decoration: InputDecoration(
-                    labelText: 'Weight',
-                    hintText: 'Enter weight',
-                    suffixText: 'kg',
-                    prefixIcon: const Icon(Icons.monitor_weight_outlined),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your weight.';
-                    }
-                    final double? weight = double.tryParse(value);
-                    if (weight == null) {
-                      return 'Please enter a valid number.';
-                    }
-                    if (weight <= 0) {
-                      return 'Weight must be greater than 0.';
-                    }
-                    return null; // Validation passed
-                  },
                 ),
 
                 const SizedBox(height: 16),
 
                 // Height input field
-                TextFormField(
-                  controller: _heightController,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
+                _buildAnimatedField(
+                  index: 1,
+                  child: TextFormField(
+                    controller: _heightController,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Height',
+                      hintText: 'Enter height',
+                      suffixText: 'cm',
+                      prefixIcon: const Icon(Icons.height_outlined),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your height.';
+                      }
+                      final double? height = double.tryParse(value);
+                      if (height == null) {
+                        return 'Please enter a valid number.';
+                      }
+                      if (height <= 0) {
+                        return 'Height must be greater than 0.';
+                      }
+                      return null; // Validation passed
+                    },
                   ),
-                  decoration: InputDecoration(
-                    labelText: 'Height',
-                    hintText: 'Enter height',
-                    suffixText: 'cm',
-                    prefixIcon: const Icon(Icons.height_outlined),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your height.';
-                    }
-                    final double? height = double.tryParse(value);
-                    if (height == null) {
-                      return 'Please enter a valid number.';
-                    }
-                    if (height <= 0) {
-                      return 'Height must be greater than 0.';
-                    }
-                    return null; // Validation passed
-                  },
                 ),
 
                 const SizedBox(height: 24),
 
-                // Calculate button - prominent and easy to tap
-                ElevatedButton(
+                // Calculate button - animated on press
+                _buildAnimatedButton(
                   onPressed: _calculateBMI,
-                  child: const Text('Calculate BMI'),
+                  label: 'Calculate BMI',
+                  isPrimary: true,
                 ),
 
                 const SizedBox(height: 12),
 
                 // Reset button - outlined style to distinguish from calculate
-                OutlinedButton(
+                _buildAnimatedButton(
                   onPressed: _resetFields,
-                  child: const Text('Reset'),
+                  label: 'Reset',
+                  isPrimary: false,
                 ),
 
                 const SizedBox(height: 24),
@@ -274,6 +282,49 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  /// Builds an animated input field with staggered entrance animation
+  Widget _buildAnimatedField({required int index, required Widget child}) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: Duration(milliseconds: 400 + (index * 150)),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 20 * (1 - value)),
+          child: Opacity(
+            opacity: value,
+            child: child,
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+
+  /// Builds an animated button with press feedback
+  Widget _buildAnimatedButton({
+    required VoidCallback onPressed,
+    required String label,
+    required bool isPrimary,
+  }) {
+    final button = isPrimary
+        ? ElevatedButton(onPressed: onPressed, child: Text(label))
+        : OutlinedButton(onPressed: onPressed, child: Text(label));
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.95, end: 1.0),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      builder: (context, value, child) {
+        return Transform.scale(
+          scale: value,
+          child: child,
+        );
+      },
+      child: button,
     );
   }
 
