@@ -14,8 +14,8 @@ void main() {
     // Verify that the calculate button is present.
     expect(find.text('Calculate BMI'), findsOneWidget);
 
-    // Verify that the reset button is present.
-    expect(find.text('Reset'), findsOneWidget);
+    // Verify that the reset button is NOT present before calculation.
+    expect(find.text('Reset'), findsNothing);
 
     // Verify that the instructional text is displayed initially.
     expect(
@@ -42,6 +42,9 @@ void main() {
     // Verify that the BMI result is displayed with 2 decimal places
     expect(find.text('24.22'), findsOneWidget);
     expect(find.text('Normal Weight'), findsOneWidget);
+
+    // Verify that reset button appears after calculation
+    expect(find.text('Reset'), findsOneWidget);
   });
 
   testWidgets('Validation prevents empty inputs', (WidgetTester tester) async {

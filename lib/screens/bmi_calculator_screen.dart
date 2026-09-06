@@ -277,14 +277,15 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                       isPrimary: true,
                     ),
 
-                    const SizedBox(height: 12),
-
-                    // Reset button - outlined style to distinguish from calculate
-                    _buildAnimatedButton(
-                      onPressed: _resetFields,
-                      label: 'Reset',
-                      isPrimary: false,
-                    ),
+                    // Reset button - only visible after calculation
+                    if (_bmiResult != null && _bmiCategory != null) ...[
+                      const SizedBox(height: 12),
+                      _buildAnimatedButton(
+                        onPressed: _resetFields,
+                        label: 'Reset',
+                        isPrimary: false,
+                      ),
+                    ],
 
                     const SizedBox(height: 24),
 
