@@ -110,6 +110,11 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
       SnackBar(
         content: Text(message),
         backgroundColor: Theme.of(context).colorScheme.error,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        margin: const EdgeInsets.all(16),
       ),
     );
   }
@@ -134,15 +139,15 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
   Color _getCategoryColor(String category) {
     switch (category) {
       case 'Underweight':
-        return Colors.blue;
+        return const Color(0xFF0061A4);
       case 'Normal Weight':
-        return Colors.green;
+        return const Color(0xFF386A20);
       case 'Overweight':
-        return Colors.orange;
+        return const Color(0xFFF57C00);
       case 'Obesity':
-        return Colors.red;
+        return const Color(0xFFB3261E);
       default:
-        return Colors.grey;
+        return const Color(0xFF49454F);
     }
   }
 
@@ -154,8 +159,6 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
         // App bar with the title of the app
         appBar: AppBar(
           title: const Text('BMI Calculator'),
-          centerTitle: true,
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         // Using SingleChildScrollView to prevent overflow on small screens
         body: SingleChildScrollView(
@@ -167,18 +170,26 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
               // CrossAxisAlignment.stretch makes children take full width
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
                 // Header text
                 Text(
                   'Calculate Your BMI',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 8),
+
+                Text(
+                  'Enter your details below to check your health status',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: const Color(0xFF79747E),
                       ),
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
 
                 // Weight input field
                 TextFormField(
@@ -186,12 +197,11 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Weight',
                     hintText: 'Enter weight',
                     suffixText: 'kg',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.monitor_weight_outlined),
+                    prefixIcon: const Icon(Icons.monitor_weight_outlined),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -208,7 +218,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                   },
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
                 // Height input field
                 TextFormField(
@@ -216,12 +226,11 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Height',
                     hintText: 'Enter height',
                     suffixText: 'cm',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.height_outlined),
+                    prefixIcon: const Icon(Icons.height_outlined),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -238,117 +247,122 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                   },
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
 
                 // Calculate button - prominent and easy to tap
                 ElevatedButton(
                   onPressed: _calculateBMI,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    textStyle: const TextStyle(fontSize: 18),
-                  ),
                   child: const Text('Calculate BMI'),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
 
                 // Reset button - outlined style to distinguish from calculate
                 OutlinedButton(
                   onPressed: _resetFields,
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    textStyle: const TextStyle(fontSize: 18),
-                  ),
                   child: const Text('Reset'),
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
 
                 // Result card - shows the BMI result or an instructional message
-                Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: [
-                        // Result label
-                        Text(
-                          'BMI RESULT',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                letterSpacing: 1.5,
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
+                _buildResultCard(),
 
-                        const SizedBox(height: 16),
-
-                        // If we have a result, show it; otherwise show instructions
-                        if (_bmiResult != null && _bmiCategory != null) ...[
-                          // Display the BMI value with 2 decimal places
-                          Text(
-                            _bmiResult!.toStringAsFixed(2),
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: _getCategoryColor(_bmiCategory!),
-                                ),
-                          ),
-
-                          const SizedBox(height: 12),
-
-                          // Display the category with an icon
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                _getCategoryIcon(_bmiCategory!),
-                                color: _getCategoryColor(_bmiCategory!),
-                                size: 28,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                _bmiCategory!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: _getCategoryColor(_bmiCategory!),
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ] else ...[
-                          // Instructional message before calculation
-                          Icon(
-                            Icons.calculate_outlined,
-                            size: 64,
-                            color: Theme.of(context).disabledColor,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Enter your height and weight\nto calculate your BMI.',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  color: Theme.of(context).disabledColor,
-                                ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  /// Builds the result card with modern styling
+  Widget _buildResultCard() {
+    final bool hasResult = _bmiResult != null && _bmiCategory != null;
+
+    return Card(
+      color: hasResult
+          ? _getCategoryColor(_bmiCategory!).withOpacity(0.08)
+          : null,
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            // Result label
+            Text(
+              'BMI RESULT',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+
+            const SizedBox(height: 16),
+
+            // If we have a result, show it; otherwise show instructions
+            if (hasResult) ...[
+              // Display the BMI value with 2 decimal places
+              AnimatedScale(
+                scale: hasResult ? 1.0 : 0.8,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.elasticOut,
+                child: Text(
+                  _bmiResult!.toStringAsFixed(2),
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: _getCategoryColor(_bmiCategory!),
+                      ),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Display the category with an icon
+              AnimatedOpacity(
+                opacity: hasResult ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: _getCategoryColor(_bmiCategory!).withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        _getCategoryIcon(_bmiCategory!),
+                        color: _getCategoryColor(_bmiCategory!),
+                        size: 24,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _bmiCategory!,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: _getCategoryColor(_bmiCategory!),
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ] else ...[
+              // Instructional message before calculation
+              Icon(
+                Icons.calculate_outlined,
+                size: 56,
+                color: Theme.of(context).disabledColor,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Enter your height and weight\nto calculate your BMI.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).disabledColor,
+                    ),
+              ),
+            ],
+          ],
         ),
       ),
     );
