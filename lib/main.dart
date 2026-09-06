@@ -97,7 +97,7 @@ class BmiCalculatorApp extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
           hintStyle: const TextStyle(
-            color: Colors.white70,
+            color: Colors.lightGreen,
           ),
         ),
         cardTheme: CardThemeData(
