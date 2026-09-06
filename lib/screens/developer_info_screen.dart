@@ -58,7 +58,7 @@ class DeveloperInfoScreen extends StatelessWidget {
             Text(
               'Flutter Developer',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: const Color(0xFF6750A4),
+                    color: const Color(0xFF2E7D32),
                     fontWeight: FontWeight.w500,
                   ),
               textAlign: TextAlign.center,
@@ -135,7 +135,7 @@ class DeveloperInfoScreen extends StatelessWidget {
                       'indicators and follows modern Material 3 design principles.',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             height: 1.6,
-                            color: const Color(0xFF49454F),
+                            color: const Color(0xFF1B5E20),
                           ),
                     ),
                   ],
@@ -214,20 +214,20 @@ class DeveloperInfoScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF3EDF7),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE7E0EC)),
-          ),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F8E9),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFFE8F5E9)),
+            ),
           child: Column(
             children: [
-              Icon(icon, color: const Color(0xFF6750A4), size: 24),
+              Icon(icon, color: const Color(0xFF2E7D32), size: 24),
               const SizedBox(height: 6),
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: const Color(0xFF49454F),
+                      color: const Color(0xFF1B5E20),
                     ),
               ),
             ],
@@ -246,7 +246,7 @@ class DeveloperInfoScreen extends StatelessWidget {
   }) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: const Color(0xFF6750A4)),
+        Icon(icon, size: 20, color: const Color(0xFF2E7D32)),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -255,7 +255,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: const Color(0xFF79747E),
+                      color: const Color(0xFF2E7D32),
                       fontWeight: FontWeight.w500,
                     ),
               ),

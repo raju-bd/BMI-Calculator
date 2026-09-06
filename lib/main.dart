@@ -18,29 +18,29 @@ class BmiCalculatorApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6750A4),
+          seedColor: const Color(0xFF2E7D32),
           brightness: Brightness.light,
-          surface: const Color(0xFFFEF7FF),
-          onSurface: const Color(0xFF1D1B20),
-          primary: const Color(0xFF6750A4),
+          surface: const Color(0xFFF1F8E9),
+          onSurface: const Color(0xFF1B5E20),
+          primary: const Color(0xFF2E7D32),
           onPrimary: Colors.white,
-          secondary: const Color(0xFF625B71),
+          secondary: const Color(0xFF4CAF50),
           onSecondary: Colors.white,
-          tertiary: const Color(0xFF7D5260),
+          tertiary: const Color(0xFF81C784),
           error: const Color(0xFFB3261E),
           onError: Colors.white,
-          outline: const Color(0xFF79747E),
-          surfaceContainerHighest: const Color(0xFFE7E0EC),
+          outline: const Color(0xFFA5D6A7),
+          surfaceContainerHighest: const Color(0xFFE8F5E9),
         ),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           elevation: 0,
-          backgroundColor: Colors.transparent,
-          foregroundColor: Color(0xFF1D1B20),
+          backgroundColor: Color(0xFF2E7D32),
+          foregroundColor: Colors.white,
           titleTextStyle: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF1D1B20),
+            color: Colors.white,
             letterSpacing: 0.15,
           ),
         ),
@@ -64,7 +64,7 @@ class BmiCalculatorApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(28),
             ),
-            side: const BorderSide(color: Color(0xFF79747E)),
+            side: const BorderSide(color: Color(0xFF4CAF50)),
             textStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -74,18 +74,18 @@ class BmiCalculatorApp extends StatelessWidget {
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: const Color(0xFFF3EDF7),
+          fillColor: const Color(0xFFF1F8E9),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFFE7E0EC), width: 1),
+            borderSide: const BorderSide(color: Color(0xFFE8F5E9), width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF6750A4), width: 2),
+            borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -93,11 +93,11 @@ class BmiCalculatorApp extends StatelessWidget {
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           labelStyle: const TextStyle(
-            color: Color(0xFF49454F),
+            color: Color(0xFF2E7D32),
             fontWeight: FontWeight.w500,
           ),
           hintStyle: TextStyle(
-            color: const Color(0xFF79747E).withValues(alpha: 0.7),
+            color: const Color(0xFF4CAF50).withValues(alpha: 0.7),
           ),
         ),
         cardTheme: CardThemeData(
@@ -105,37 +105,37 @@ class BmiCalculatorApp extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          color: const Color(0xFFFEF7FF),
-          shadowColor: const Color(0xFF1D1B20).withValues(alpha: 0.08),
+          color: const Color(0xFFF1F8E9),
+          shadowColor: const Color(0xFF2E7D32).withValues(alpha: 0.08),
         ),
         textTheme: const TextTheme(
           headlineSmall: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,
-            color: Color(0xFF1D1B20),
+            color: Color(0xFF1B5E20),
             letterSpacing: 0,
           ),
           titleLarge: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF1D1B20),
+            color: Color(0xFF1B5E20),
           ),
           titleMedium: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: Color(0xFF49454F),
+            color: Color(0xFF2E7D32),
             letterSpacing: 0.15,
           ),
           bodyLarge: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
-            color: Color(0xFF49454F),
+            color: Color(0xFF1B5E20),
             height: 1.5,
           ),
           bodyMedium: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: Color(0xFF49454F),
+            color: Color(0xFF1B5E20),
             height: 1.4,
           ),
         ),

@@ -140,15 +140,15 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
   Color _getCategoryColor(String category) {
     switch (category) {
       case 'Underweight':
-        return const Color(0xFF0061A4);
+        return const Color(0xFF26A69A);
       case 'Normal Weight':
-        return const Color(0xFF386A20);
+        return const Color(0xFF2E7D32);
       case 'Overweight':
         return const Color(0xFFF57C00);
       case 'Obesity':
         return const Color(0xFFB3261E);
       default:
-        return const Color(0xFF49454F);
+        return const Color(0xFF1B5E20);
     }
   }
 
@@ -187,7 +187,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                     Text(
                       'Enter your details below to check your health status',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: const Color(0xFF79747E),
+                            color: const Color(0xFF2E7D32),
                           ),
                       textAlign: TextAlign.center,
                     ),
@@ -262,7 +262,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                       child: Text(
                         '1 feet = 30.48 cm',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: const Color(0xFF79747E),
+                               color: const Color(0xFF2E7D32),
                               fontStyle: FontStyle.italic,
                             ),
                       ),
@@ -374,7 +374,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
         border: Border.all(
           color: hasResult
               ? _getCategoryColor(_bmiCategory!).withValues(alpha: 0.2)
-              : const Color(0xFFE7E0EC),
+               : const Color(0xFFE8F5E9),
           width: 1.5,
         ),
         boxShadow: hasResult
@@ -538,7 +538,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
               height: 8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: const Color(0xFFE7E0EC),
+                color: const Color(0xFFE8F5E9),
               ),
               child: FractionallySizedBox(
                 widthFactor: value,
@@ -563,7 +563,7 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
                 Text(
                   'Underweight',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: const Color(0xFF0061A4),
+                        color: const Color(0xFF2E7D32),
                         fontWeight: FontWeight.w500,
                       ),
                 ),
