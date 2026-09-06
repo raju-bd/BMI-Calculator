@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'developer_info_screen.dart';
 
 /// BMI Calculator Screen
 ///
@@ -292,61 +293,23 @@ class _BmiCalculatorScreenState extends State<BmiCalculatorScreen> {
 
                     const SizedBox(height: 24),
 
-                    // Developer info section
-                    _buildDeveloperCard(),
+                    // Developer info navigation link
+                    TextButton.icon(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const DeveloperInfoScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.person_outline),
+                      label: const Text('Developer Info'),
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  /// Builds developer information card
-  Widget _buildDeveloperCard() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            // Developer image placeholder
-            // TODO: Replace with actual developer image asset
-            // Example: CircleAvatar(backgroundImage: AssetImage('assets/images/developer.jpg'), radius: 40)
-            const CircleAvatar(
-              radius: 40,
-              backgroundColor: Color(0xFFE7E0EC),
-              child: Icon(
-                Icons.person_outlined,
-                size: 40,
-                color: Color(0xFF6750A4),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            // Developer name
-            Text(
-              'Md. Mahfuzul Amin RAJU',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 4),
-
-            // Project and assignment info
-            Text(
-              'BMI Calculator\nAssignment - Module 20\nApp Development with Flutter & AI, Batch-17',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: const Color(0xFF79747E),
-                    height: 1.4,
-                  ),
-              textAlign: TextAlign.center,
-            ),
-          ],
         ),
       ),
     );
